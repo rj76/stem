@@ -45,7 +45,7 @@ PublishServerDescriptor 0
 DataDirectory %s
 """
 
-TOR_CMD = 'tor'
+TOR_CMD = os.environ.get('TOR_BINARY', 'tor')
 
 
 def random_port():
