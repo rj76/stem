@@ -11,8 +11,8 @@ python:
     - "3.6"
 
 env:
-  - TEST_PARAM="--unit"
-  - TEST_PARAM="--integ"
+  - TEST_PARAM="--unit -v"
+  - TEST_PARAM="--integ -v"
 
 before_install:
   - sudo apt-get update -qq
