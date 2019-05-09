@@ -218,7 +218,7 @@ class TestBandwidthFile(unittest.TestCase):
     self.assertEqual(60, desc.min_percent)
 
     self.assertEqual('US', desc.scanner_country)
-    self.assertEqual(['ZZ'], desc.destinations_countries)
+    self.assertEqual(['ZZ'], list(desc.destinations_countries))
     self.assertEqual(223519, desc.time_to_report_half_network)
 
     stats = desc.recent_stats
@@ -316,7 +316,7 @@ class TestBandwidthFile(unittest.TestCase):
       ('content', []),
     ]))
 
-    self.assertEqual(RIGHT_VERSION_POSITION, content)
+    self.assertEqual(RIGHT_VERSION_POSITION, content.decode("utf-8"))
 
   def test_header_alternate_div(self):
     """
