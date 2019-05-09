@@ -1,6 +1,8 @@
 # Travis CI configuration file
 # http://about.travis-ci.org/docs/
 
+dist: xenial
+
 language: python
 
 python:
@@ -23,7 +25,7 @@ install:
 
 # Tests running commands
 script:
-  - ./run_tests.py $TEST_PARAM 
+  - ./run_tests.py $TEST_PARAM
 
 notifications:
   email: false
