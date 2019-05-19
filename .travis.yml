@@ -5,6 +5,8 @@ dist: xenial
 
 language: python
 
+
+
 python:
     - "2.7"
     - "3.5"
@@ -23,10 +25,6 @@ before_install:
   - tar zxf tor-0.4.0.5.tar.gz && cd tor-0.4.0.5
   - ./configure && make
 
-cache:
-  directories:
-  - $HOME/tor-0.4.0.5
-
 # Dependencies installation commands
 install:
   - cd $TRAVIS_BUILD_DIR
@@ -37,6 +35,9 @@ install:
 # Tests running commands
 script:
   - TOR_BINARY=$HOME/tor-0.4.0.5/src/app/tor python run_tests.py -v $TEST_PARAM --tor $HOME/tor-0.4.0.5/src/app/tor
+
+after_failure:
+  - cat /home/travis/build/rj76/stem/test/data/tor_log
 
 notifications:
   email: false
@@ -49,3 +50,4 @@ sudo: false
 
 git:
   depth: 300
+export TRAVIS_WORKER_POOL_SIZE="2"

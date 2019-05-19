@@ -68,8 +68,8 @@ ExitRelay 0
 PublishServerDescriptor 0
 AssumeReachable 1
 DownloadExtraInfo 1
-Log notice stdout
-Log notice file %%s/tor_log
+Log debug stdout
+Log debug file %%s/tor_log
 """ % (SOCKS_PORT, ORPORT)
 
 # singleton Runner instance
