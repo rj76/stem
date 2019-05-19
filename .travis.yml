@@ -18,12 +18,14 @@ env:
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq libevent-dev libssl-dev zlib1g-dev python-tox python-dev python3-dev wget
+  - cd ~/
   - wget https://dist.torproject.org/tor-0.4.0.5.tar.gz
   - tar zxf tor-0.4.0.5.tar.gz && cd tor-0.4.0.5
   - ./configure && make
 
 # Dependencies installation commands
 install:
+  - cd ~/rj76/stem
   - pip install -U pip
   - pip install -r requirements.txt
   - pip install wrapt_timeout_decorator
