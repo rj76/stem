@@ -85,3 +85,5 @@ class GetInfoResponse(stem.response.ControlMessage):
 
       if requested_label != reply_label:
         raise stem.ProtocolError("GETINFO reply doesn't match the parameters that we requested. Queried '%s' but got '%s'." % (requested_label, reply_label))
+      else:
+        return reply_params
