@@ -18,7 +18,7 @@ env:
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq libevent-dev libssl-dev zlib1g-dev python-tox python-dev python3-dev wget
-  - cd ~/
+  - cd $HOME
   - wget https://dist.torproject.org/tor-0.4.0.5.tar.gz
   - tar zxf tor-0.4.0.5.tar.gz && cd tor-0.4.0.5
   - ./configure && make
@@ -37,7 +37,7 @@ install:
 
 # Tests running commands
 script:
-  - TOR_BINARY=./tor-0.4.0.5/src/app/tor python run_tests.py -v $TEST_PARAM --tor ./tor-0.4.0.5/src/app/tor
+  - TOR_BINARY=$HOME/tor-0.4.0.5/src/app/tor python run_tests.py -v $TEST_PARAM --tor $HOME/tor-0.4.0.5/src/app/tor
 
 notifications:
   email: false
