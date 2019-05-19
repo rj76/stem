@@ -47,6 +47,3 @@ after_script:
   - "pip list"
 
 sudo: false
-
-git:
-  depth: 300
