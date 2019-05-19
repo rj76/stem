@@ -50,4 +50,3 @@ sudo: false
 
 git:
   depth: 300
-export TRAVIS_WORKER_POOL_SIZE="2"
