@@ -1237,8 +1237,12 @@ class Controller(BaseController):
 
       if is_multiple:
         return reply
-      else:
+
+      try:
         return list(reply.values())[0]
+      except IndexError:
+        return list(reply.values())
+
     except stem.ControllerError as exc:
       if 'address' in params:
         self._last_address_exc = exc
