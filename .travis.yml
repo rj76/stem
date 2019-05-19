@@ -25,8 +25,7 @@ before_install:
 
 cache:
   directories:
-  - .autoconf
-  - $HOME/.tor-0.4.0.5
+  - $HOME/tor-0.4.0.5
 
 # Dependencies installation commands
 install:
