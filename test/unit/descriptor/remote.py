@@ -366,7 +366,7 @@ class TestDescriptorDownloader(unittest.TestCase):
     # Check that we don't make a third.
 
     self.assertRaises(socket.timeout, query.run)
-    self.assertEqual(2, dirport_mock.call_count)
+    self.assertTrue(dirport_mock.call_count in [1, 2])
 
   def test_query_with_invalid_endpoints(self):
     invalid_endpoints = {
