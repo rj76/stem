@@ -5,6 +5,7 @@ Integration tests for the stem.control.Controller class.
 import os
 import shutil
 import socket
+import sys
 import tempfile
 import threading
 import time
@@ -1378,6 +1379,94 @@ class TestController(unittest.TestCase):
         self.assertEqual(None, controller.get_conf('OrPort'))
       finally:
         controller.set_conf('OrPort', str(test.runner.ORPORT))
+
+  @test.require.controller
+  @test.require.online
+  @test.require.version(Requirement.ADD_ONION)
+  def test_using_ephemeral_hidden_services_v2(self):
+    """
+    Create and use a live ephemeral hidden service.
+    """
+
+    with test.runner.get_runner().get_tor_controller() as controller:
+      port = 4567
+      hidden_service_port = 81
+      incoming_address = None, None
+      sending = b'hello world'
+
+      def run_server():
+        serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        serversocket.bind(('127.0.0.1', port))
+        serversocket.listen(5)
+        incoming_socket, incoming_address = serversocket.accept()
+        incoming_socket.send(sending)
+        serversocket.shutdown(socket.SHUT_RDWR)
+        sys.exit()
+
+      server_thread = threading.Thread(target = run_server)
+      server_thread.setDaemon(True)
+      server_thread.start()
+
+      hidden_service_response = controller.create_ephemeral_hidden_service(
+        {hidden_service_port: port},
+        await_publication=True,
+        key_content='RSA1024')
+      response = None
+
+      with test.network.Socks(controller.get_socks_listeners()[0]) as s:
+        s.settimeout(30)
+        s.connect(('%s.onion' % hidden_service_response.service_id, hidden_service_port))
+        response = s.recv(1024*10)
+
+      server_thread.join()
+      controller.set_hidden_service_conf({})  # drop hidden services created during the test
+
+      self.assertEqual(response, sending)
+      self.assertTrue(incoming_address is not None)
+
+  @test.require.controller
+  @test.require.online
+  @test.require.version(Requirement.ADD_ONION)
+  def test_using_ephemeral_hidden_services_v3(self):
+    """
+    Create and use a live ephemeral hidden service.
+    """
+
+    with test.runner.get_runner().get_tor_controller() as controller:
+      port = 4569
+      hidden_service_port = 82
+      incoming_address = None, None
+      sending = b'hello world'
+
+      def run_server():
+        serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        serversocket.bind(('127.0.0.1', port))
+        serversocket.listen(5)
+        incoming_socket, incoming_address = serversocket.accept()
+        incoming_socket.send(sending)
+        serversocket.shutdown(socket.SHUT_RDWR)
+        sys.exit()
+
+      server_thread = threading.Thread(target = run_server)
+      server_thread.setDaemon(True)
+      server_thread.start()
+
+      hidden_service_response = controller.create_ephemeral_hidden_service(
+        {hidden_service_port: port},
+        await_publication=True,
+        key_content='ED25519-V3')
+      response = None
+
+      with test.network.Socks(controller.get_socks_listeners()[0]) as s:
+        s.settimeout(30)
+        s.connect(('%s.onion' % hidden_service_response.service_id, hidden_service_port))
+        response = s.recv(1024*10)
+
+      server_thread.join()
+      controller.set_hidden_service_conf({})  # drop hidden services created during the test
+
+      self.assertEqual(response, sending)
+      self.assertTrue(incoming_address is not None)
 
   def _get_router_status_entry(self, controller):
     """
