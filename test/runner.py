@@ -60,6 +60,8 @@ CONFIG = stem.util.conf.config_dict('test', {
 SOCKS_PORT = 1112
 ORPORT = 1113
 
+GEO_IP_FILE = os.environ.get('GEO_IP_FILE')
+
 BASE_TORRC = """# configuration for stem integration tests
 DataDirectory %%s
 SocksPort %i
@@ -71,6 +73,9 @@ DownloadExtraInfo 1
 Log notice stdout
 Log notice file %%s/tor_log
 """ % (SOCKS_PORT, ORPORT)
+
+if GEO_IP_FILE:
+  BASE_TORRC += "GeoIPFile %s\n" % GEO_IP_FILE
 
 # singleton Runner instance
 INTEG_RUNNER = None
