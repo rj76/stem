@@ -231,8 +231,8 @@ class Socks(_socket_socket):
     response = self._bytes_to_ints(self._recvall(10))
 
     # check the status byte
-
-    if response[1] != 0x00:
+    # TODO: not at all sure about the added 0x01
+    if response[1] not in [0x00, 0x01]:
       raise SocksError(response[1])
 
   def connect_ex(self, address):
