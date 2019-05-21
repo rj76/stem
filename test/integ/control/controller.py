@@ -1403,7 +1403,7 @@ class TestController(unittest.TestCase):
         serversocket.shutdown(socket.SHUT_RDWR)
         sys.exit()
 
-      server_thread = threading.Thread(target = run_server)
+      server_thread = threading.Thread(target=run_server)
       server_thread.setDaemon(True)
       server_thread.start()
 
@@ -1415,7 +1415,8 @@ class TestController(unittest.TestCase):
 
       with test.network.Socks(controller.get_socks_listeners()[0]) as s:
         s.settimeout(30)
-        s.connect(('%s.onion' % hidden_service_response.service_id, hidden_service_port))
+        hidden_service_address = '%s.onion' % hidden_service_response.service_id
+        s.connect((hidden_service_address, hidden_service_port))
         response = s.recv(1024*10)
 
       server_thread.join()
@@ -1447,7 +1448,7 @@ class TestController(unittest.TestCase):
         serversocket.shutdown(socket.SHUT_RDWR)
         sys.exit()
 
-      server_thread = threading.Thread(target = run_server)
+      server_thread = threading.Thread(target=run_server)
       server_thread.setDaemon(True)
       server_thread.start()
 
@@ -1459,7 +1460,8 @@ class TestController(unittest.TestCase):
 
       with test.network.Socks(controller.get_socks_listeners()[0]) as s:
         s.settimeout(30)
-        s.connect(('%s.onion' % hidden_service_response.service_id, hidden_service_port))
+        hidden_service_address = '%s.onion' % hidden_service_response.service_id
+        s.connect((hidden_service_address, hidden_service_port))
         response = s.recv(1024*10)
 
       server_thread.join()

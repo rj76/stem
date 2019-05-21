@@ -508,10 +508,11 @@ class Runner(object):
 
     if process_status is None:
       return True
-    else:
-      process_output = (self._tor_process.stdout.read().decode() + '\n\n' + self._tor_process.stderr.read().decode()).strip()
-      println('\n%s\nOur tor process ended prematurely with exit status %s\n%s\n\n%s' % ('=' * 60, process_status, '=' * 60, process_output), ERROR)
-      return False
+
+    stdout = self._tor_process.stdout.read().decode()
+    stderr = self._tor_process.stderr.read().decode()
+    process_output = "%s\n\n%s" % (stdout, stderr)
+    println('\n%s\nOur tor process ended prematurely with exit status %s\n%s\n\n%s' % ('=' * 60, process_status, '=' * 60, process_output), ERROR)
 
   def _get(self, attr):
     """
