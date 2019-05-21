@@ -12,7 +12,11 @@ tar zxf tor-$TOR_VERSION.tar.gz && cd tor-$TOR_VERSION
 
 BASE_TOR_DIR=`pwd`
 
-./configure && make -j4
+if test -z "$CPU_CORE_COUNT"; then
+  CPU_CORE_COUNT=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || sysctl -n hw.ncpu)
+fi
+
+./configure && make -j$CPU_CORE_COUNT
 
 # export these for usage in tests
 export GEO_IP_FILE="$BASE_TOR_DIR/src/config/geoip"
