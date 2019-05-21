@@ -34,21 +34,21 @@ source $WORKSPACE/venv-2.7/bin/activate
 pip install -U pip
 pip install -r requirements.txt
 
-python run_tests.py $UNIT_TEST_ARGS --tor $WORKSPACE/tor-0.4.0.5/src/app/tor
-python run_tests.py $INTEG_TEST_ARGS --tor $WORKSPACE/tor-0.4.0.5/src/app/tor
+python run_tests.py $UNIT_TEST_ARGS --tor $TOR_BINARY
+python run_tests.py $INTEG_TEST_ARGS --tor $TOR_BINARY
 
 # 3.6
 source $WORKSPACE/venv-3.6/bin/activate
 pip install -U pip
 pip install -r requirements.txt
 
-python run_tests.py $UNIT_TEST_ARGS --tor $WORKSPACE/tor-0.4.0.5/src/app/tor
-python run_tests.py $INTEG_TEST_ARGS --tor $WORKSPACE/tor-0.4.0.5/src/app/tor
+python run_tests.py $UNIT_TEST_ARGS --tor $TOR_BINARY
+python run_tests.py $INTEG_TEST_ARGS --tor $TOR_BINARY
 
 # 3.7
 source $WORKSPACE/venv-3.7/bin/activate
 pip install -U pip
 pip install -r requirements.txt
 
-python run_tests.py $UNIT_TEST_ARGS --tor $WORKSPACE/tor-0.4.0.5/src/app/tor
-python run_tests.py $INTEG_TEST_ARGS --tor $WORKSPACE/tor-0.4.0.5/src/app/tor
+python run_tests.py $UNIT_TEST_ARGS --tor $TOR_BINARY
+python run_tests.py $INTEG_TEST_ARGS --tor $TOR_BINARY
